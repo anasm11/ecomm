@@ -18,8 +18,8 @@ const Cart=()=>{
                     <img src={product.img.source} alt={product.img.alt} />
   
                     <div className="text-container">
-                      <div className="title-text">Shirt</div>
-                      <div className="author-text">100% cotton</div>
+                      <div className="title-text">Speaker</div>
+                      <div className="author-text">bluetooth</div>
                     </div>
                   </div>
                   <p className="description">
