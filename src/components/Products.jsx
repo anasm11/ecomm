@@ -34,8 +34,8 @@ const Products = () => {
                         <h3>Category</h3>
                     </div>
                     <ul>
-                        <li><input type='checkbox'/>Men clothing</li>
-                        <li><input type='checkbox'/>Women clothing</li>
+                        <li><input type='checkbox'/>Speakers</li>
+                        <li><input type='checkbox'/>Phone cases</li>
                     </ul>
                 </div>
             </li>
@@ -81,8 +81,8 @@ const Products = () => {
             <img src={product.img.source} alt={product.img.alt} />
         </div>
         <div className="text-container">
-            <div className="title-text">Shirt</div>
-            <div className="author-text">cotton</div>
+            <div className="title-text">Speaker</div>
+            <div className="author-text">bluetooth</div>
         </div>
         </div>
     

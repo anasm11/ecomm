@@ -18,8 +18,8 @@ const WishList = () => {
             <img src={product.img.source} alt={product.img.alt} />
         </div>
         <div className="text-container">
-            <div className="title-text">Shirt</div>
-            <div className="author-text">cotton</div>
+            <div className="title-text">Speaker</div>
+            <div className="author-text">bluetooth</div>
         </div>
         </div>
     
