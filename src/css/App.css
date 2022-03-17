@@ -1,0 +1,17 @@
+@import url('https://lucidui.netlify.app/library.css');
+
+
+body{
+    margin:0;
+    background-color: #eee;
+    display:grid;
+    grid-template-rows:min-content;
+}
+
+header{
+    grid-column: 1/-1;
+    height:fit-content;
+    position: sticky;
+    top:0;
+    z-index:9;
+}

@@ -1,0 +1,25 @@
+.products-page{
+    display:grid;
+    grid-template-columns: 18rem 1fr;
+    gap:2rem;
+}
+
+.sidebar{
+    margin:1rem;
+}
+
+.main-body{
+    display: flex;
+    flex-wrap: wrap;
+    gap:1rem;
+
+}
+
+.card{
+    width:15rem;
+}
+
+.action-icons>*{
+    width:1.25rem;
+    height:1.25rem;
+}
