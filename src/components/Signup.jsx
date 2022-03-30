@@ -1,27 +1,27 @@
 import React from "react"
 import "../css/Signup.css"
 
-const Signup=()=>{
-return(
-    <div class='box'>
-    <div class='form'>
-        <h2 class='form-header'>Signup</h2>
-        <div class='form-body'>
-            <input class='input' type='text' placeholder='email'/>
-            <input class='input' type='text' placeholder='password'/>
-            <span class='single-line'>
-                <div class='checkbox-input'>
-                    <input class='checkbox' type='checkbox' name='remember'/>
-                    <label for='remember'>Remember me</label>
+const Signup = () => {
+    return (
+        <div className='box'>
+            <div className='form'>
+                <h2 className='form-header'>Signup</h2>
+                <div className='form-body'>
+                    <input className='input' type='text' placeholder='First Name' />
+                    <input className='input' type='text' placeholder='Last Name' />
+                    <input className='input' type='text' placeholder='email' />
+                    <input className='input' type='text' placeholder='password' />
+                    <span className='single-line'>
+                        <div className='checkbox-input'>
+                            <input className='checkbox' type='checkbox' name='remember' />
+                            <label >Remember me</label>
+                        </div>
+                    </span>
+                    <button className='btn primary-btn'>Signup</button>
                 </div>
-                <div class='link'>Forgot password?</div>
-            </span>
-            <button class='btn primary-btn'>Login</button>
+            </div>
         </div>
-        <div class='form-footer'>Create new account? {'>'}</div>
-    </div>
-</div>
-)
+    )
 }
 
 export default Signup
