@@ -1,6 +1,5 @@
-import axios from 'axios'
-import React, { useState, useEffect } from 'react'
-import { productsData, IcRoundFavoriteBorder, IcRoundShare, IcSharpMoreVert } from '../assets/index'
+import React from 'react'
+import { IcRoundFavoriteBorder, IcRoundShare, IcSharpMoreVert } from '../assets/index'
 import '../css/Cart.css'
 import { useCart } from "../context/CartContext"
 
@@ -71,11 +70,11 @@ const Cart = () => {
             </div>
             <div>
               <span>Delivery</span>
-              <span>Rs. 40</span>
+              <span>Rs. {cartItems.length?40:0}</span>
             </div>
             <div>
               <h3>Total Amount</h3>
-              <span>Rs. {40 + cartItems.reduce((sum, item) => sum + Number(item.price) * item.qty, 0)}</span>
+              <span>Rs. {cartItems.length?40:0 + cartItems.reduce((sum, item) => sum + Number(item.price) * item.qty, 0)}</span>
             </div>
           </div>
 

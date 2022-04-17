@@ -1,3 +1,4 @@
+import {productsData} from '../../assets/index'
 import { v4 as uuid } from "uuid";
 
 /**
@@ -8,26 +9,34 @@ import { v4 as uuid } from "uuid";
 export const products = [
   {
     _id: uuid(),
-    title: "You are Winner",
-    author: "Junaid Qureshi",
+    title: "Speaker #209",
     price: "3000",
     rating:2,
-    categoryName: "horror",
+    categoryName: "speakers",      
+    image:productsData[0].img.source
   },
   {
     _id: uuid(),
-    title: "You Can WIN",
-    author: "Shiv Khera",
+    title: "Headphones #304",
     price: "5000",
     rating:1,
-    categoryName: "non-fiction",
+    categoryName: "headphones",
+    image:productsData[1].img.source
   },
   {
     _id: uuid(),
-    title: "Think and Grow Rich",
-    author: "Shiv Khera",
+    title: "wireless Earphones #607",
     price: "1000",
     rating:3,
-    categoryName: "fiction",
+    categoryName: "wireless earphones",
+    image:productsData[3].img.source
+  },
+  {
+    _id: uuid(),
+    title: "Phone case #902",
+    price: "1000",
+    rating:3,
+    categoryName: "phone cases",
+    image:productsData[2].img.source
   },
 ];

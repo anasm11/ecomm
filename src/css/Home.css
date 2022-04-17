@@ -22,13 +22,13 @@
 
 .sale-section{
     grid-column: 1/-1;
-    width:100%;
+    /* width:100%;
     height:25rem;
     display:flex; 
     gap:1rem;
     background-color:var(--secondary-color);
     border-radius: 1rem;
-    overflow:hidden;
+    overflow:hidden; */
 }
 
 .sale-section:hover{
@@ -47,7 +47,7 @@ cursor: pointer;
 
 .sale-section>img{
 object-fit:fill;
-height:100%;
+height:50%;
 }
 
 .collection-1{

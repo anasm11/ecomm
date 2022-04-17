@@ -3,12 +3,15 @@ import { IcRoundFavorite, IcRoundFavoriteBorder, IcRoundShare, IcSharpMoreVert }
 
 
 
-const Card = (props) => {
-    const { product, incrementCartItem, decrementCartItem, addToCart, removeFromWishList, addToWishList, cartItems, wishList } = props.details
+const Card = ({details}) => {
+    const { product, incrementCartItem, decrementCartItem, addToCart, removeFromWishList, addToWishList, cartItems, wishList } = details
 
     return (
-        <div className="card" key={product._id}>
+        <div className="card product-card" key={product._id}>
             <div className="card-body">
+                <img src={product.image} onClick={()=>{
+                    console.log(product.image)
+                }}/>
                 <div className="text-container">
                     <div className="title-text">{product.title}</div>
                     <div className="author-text">{product.author}</div>
@@ -19,8 +22,8 @@ const Card = (props) => {
 
             <div className="foot">
                 <div className="action-buttons">
-                    {cartItems.find((item) => item._id === product._id) ? <div>
-                        <button onClick={() => {
+                    {cartItems.find((item) => item._id === product._id) ? <>
+                        <button className='btn secondary-btn' onClick={() => {
                             incrementCartItem(product)
                         }
 
@@ -31,7 +34,7 @@ const Card = (props) => {
                             return item._id === product._id ? item.qty : ans
 
                         }, 0)}</span>
-                        <button onClick={() => { decrementCartItem(product) }}>-</button></div> : <button className='btn primary-btn' onClick={() => { addToCart(product) }}>Add to cart</button>
+                        <button className='btn secondary-btn' onClick={() => { decrementCartItem(product) }}>-</button></> : <button className='btn primary-btn' onClick={() => { addToCart(product) }}>Add to cart</button>
                     }
                 </div>
                 <div className="action-icons">
@@ -43,8 +46,8 @@ const Card = (props) => {
 
                     }
 
-                    <IcRoundShare />
-                    <IcSharpMoreVert />
+                    {/* <IcRoundShare />
+                    <IcSharpMoreVert /> */}
                 </div>
             </div>
         </div>

@@ -1,13 +1,14 @@
 import '../css/Products.css'
-import React, { useState, useEffect, useReducer } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useCart } from '../context/CartContext'
 import { useWishListContext } from '../context/WishListContext'
 import Card from './Card'
+import { useProductsContext } from '../context/ProductsContext'
 
 const SideBar = ({ sortState }) => {
 
-    const { dispatch } = sortState
+    const { productsState, productsDispatch } = sortState
     const [categories, setCategories] = useState([])
 
 
@@ -21,7 +22,7 @@ const SideBar = ({ sortState }) => {
             <div className='list no-bullet-list'>
                 <div className='list-header'>
                     <h3>Filters</h3>
-                    <h3>—</h3>
+                    <h3 onClick={()=>productsDispatch({type:'clear'})}>—</h3>
                 </div>
                 <ul>
                     <li>
@@ -30,9 +31,9 @@ const SideBar = ({ sortState }) => {
                                 <h3>Price</h3>
                             </div>
                             <div className="slidecontainer">
-                                <input type="range" min="0" max="6000" defaultValue='6000' 
+                                <input type="range" min="0" max='6000' value={productsState.filterPrice}
                                 onChange={(e) =>
-                                    dispatch({type:'filterPrice', payload:e.target.value })
+                                    productsDispatch({type:'filterPrice', payload:e.target.value })
                                 } className="slider" id="myRange" />
                                 <div className='values'>
                                     <span>0</span>
@@ -49,10 +50,10 @@ const SideBar = ({ sortState }) => {
                             </div>
                             <ul>
                                 {categories.map((category) =>
-                                    <li key={category.categoryName}><label><input type='checkbox' defaultChecked onChange={
-                                        (e) => {console.log(category)
-                                            e.target.checked ? dispatch({ type: 'categoryFilter', payload: category.categoryName, addorRemove: 'add' }) :
-                                                dispatch({ type: 'categoryFilter', payload: category.categoryName, addorRemove: 'remove' })
+                                    <li key={category.categoryName}><label><input type='checkbox' checked={productsState?.categoryFilter?.find((ctg)=>ctg===category.categoryName)?true:false} onChange={
+                                        (e) => {
+                                            e.target.checked ? productsDispatch({ type: 'categoryFilter', payload: category.categoryName, addorRemove: 'add' }) :
+                                                productsDispatch({ type: 'categoryFilter', payload: category.categoryName, addorRemove: 'remove' })
                                         }
                                     } />{category.categoryName}</label></li>
                                 )}
@@ -65,10 +66,10 @@ const SideBar = ({ sortState }) => {
                                 <h3>Rating</h3>
                             </div>
                             <ul>
-                                <li><label><input type='radio' name='rating' onChange={(e) => (e.target.checked && dispatch({type:'filterRating',payload:4}))} />4 stars & above</label></li>
-                                <li><label><input type='radio' name='rating' onChange={(e) => (e.target.checked && dispatch({type:'filterRating',payload:3}))} />3 stars & above</label></li>
-                                <li><label><input type='radio' name='rating' onChange={(e) => (e.target.checked && dispatch({type:'filterRating',payload:2}))} />2 stars & above</label></li>
-                                <li><label><input type='radio' name='rating' onChange={(e) => (e.target.checked && dispatch({type:'filterRating',payload:1}))} />1 stars & above</label></li>
+                                <li><label><input type='radio' name='rating' checked={productsState.filterRating>=4} onChange={(e) => (e.target.checked && productsDispatch({type:'filterRating',payload:4}))} />4 stars & above</label></li>
+                                <li><label><input type='radio' name='rating' checked={productsState.filterRating<4 && productsState.filterRating>=3} onChange={(e) => (e.target.checked && productsDispatch({type:'filterRating',payload:3}))} />3 stars & above</label></li>
+                                <li><label><input type='radio' name='rating' checked={productsState.filterRating<3 && productsState.filterRating>=2} onChange={(e) => (e.target.checked && productsDispatch({type:'filterRating',payload:2}))} />2 stars & above</label></li>
+                                <li><label><input type='radio' name='rating' checked={productsState.filterRating<2 && productsState.filterRating>=1} onChange={(e) => (e.target.checked && productsDispatch({type:'filterRating',payload:1}))} />1 stars & above</label></li>
                             </ul>
                         </div>
                     </li>
@@ -78,8 +79,8 @@ const SideBar = ({ sortState }) => {
                                 <h3>Sort by</h3>
                             </div>
                             <ul>
-                                <li><label><input type='radio' name='price-sort-direction' onChange={(e) => (e.target.checked && dispatch({ type: 'priceSortDrn', payload: 0 }))} />Price - Low to High</label></li>
-                                <li><label><input type='radio' name='price-sort-direction' onChange={(e) => (e.target.checked && dispatch({ type: 'priceSortDrn', payload: 1 }))} />Price - Low to High</label></li>
+                                <li><label><input type='radio' name='price-sort-direction' checked={productsState.priceSortDrn===0} onChange={(e) => (e.target.checked && productsDispatch({ type: 'priceSortDrn', payload: 0 }))} />Price - Low to High</label></li>
+                                <li><label><input type='radio' name='price-sort-direction' checked={productsState.priceSortDrn===1} onChange={(e) => (e.target.checked && productsDispatch({ type: 'priceSortDrn', payload: 1 }))} />Price - High to Low</label></li>
                             </ul>
                         </div>
                     </li>
@@ -90,103 +91,24 @@ const SideBar = ({ sortState }) => {
     )
 }
 
-const filterItems=(state,allProducts)=>{
-    console.log(state.filterPrice,'fromfilter')
-    var prodcts = allProducts.filter((prdct) => {
-        for (let i in state.categoryFilter) {
-            if (prdct.categoryName === state.categoryFilter[i])
-                return true
-        }
-        return false
-    })
-
-     let x=prodcts.filter((item)=>parseInt(item.rating)>=parseInt(state.filterRating))
-
-     let y=[...x].filter((item)=>{
-         console.log(item,state.filterPrice,'ppp')
-        return parseInt(item.price)<=parseInt(state.filterPrice)
-        })
-
-    return y
-}
-
-
 
 const Products = () => {
 const {cartItems,addToCart,incrementCartItem,decrementCartItem}=useCart()
 const {addToWishList,removeFromWishList,wishList}=useWishListContext()
-console.log(wishList,'wishfromprod')
-
-    const [allProducts, setAllProducts] = useState([])
-
-    useEffect(async () => {
-        const { data } = await axios.get('/api/products')
-        setAllProducts(data.products)
-    }, [])
-
-    useEffect(async () => {
-        dispatch({ ...state, products: allProducts })
-    }, [allProducts])
-
-
-    const reducer = (state, action) => {
-
-        switch (action.type) {
-            case ('categoryFilter'): {
-                let x = state.categoryFilter
-                if (action.addorRemove === 'add')
-                    x.push(action.payload)
-                else x = x.filter((item) => {
-                    console.log(x, item, action.payload, 'lll')
-                    return action.payload !== item
-                }
-                )
-
-                var prodcts=filterItems({ ...state, categoryFilter: x },allProducts)
-                return { ...state, products: prodcts, categoryFilter: x }
-            }
-
-            case('filterRating'):{
-                var prodcts=filterItems({...state,filterRating:action.payload},allProducts)
-
-                return {...state,filterRating:action.payload,products:prodcts}
-            }
-
-            case('filterPrice'):{
-                console.log(action.payload,'payload val')
-                var prdcts=filterItems({...state,filterPrice:action.payload},allProducts)
-
-                return {...state,filterPrice:action.payload,products:prdcts}
-            }
-
-            case ('priceSortDrn'): {
-                let y = state.products
-                if (parseInt(action.payload) === 0) { console.log('yes'); y.sort((a, b) => parseInt(a.price) - parseInt(b.price)) }
-                else if (action.payload === 1)
-                    y.sort((a, b) => parseInt(b.price) - parseInt(a.price))
-                return { ...state, products: y, priceSortDrn: action.payload }
-            }
-        }
-
-
-        return { ...state, products: allProducts }
-    }
-
-    const [state, dispatch] = useReducer(reducer, { filterRating: 0, priceSortDrn: null, products: allProducts, categoryFilter: ['fiction', 'non-fiction', 'horror'], filterPrice: Number.MAX_SAFE_INTEGER })
-
+const {state:productsState,dispatch:productsDispatch}=useProductsContext()
+    
     return (
         <div className='products-page'>
 
-            <SideBar sortState={{  dispatch }} />
+            <SideBar sortState={{ productsState, productsDispatch }} />
             <main>
                 <div className='main-header'>
-                    <div className='main-text'><h3>Showing All Products</h3></div>
-                    <div className='sub-text'><span>(Showing 20 products)</span></div>
+                    <div className='main-text'><h3>(Showing {productsState.products.length} products)</h3></div>
                 </div>
 
                 <div className='main-body'>
 
-                    {state.products.map((product) =>
+                    {productsState.products.map((product) =>
                        <Card key={product._id} details={{product,incrementCartItem,decrementCartItem,addToCart,removeFromWishList,addToWishList,cartItems,wishList}}/>
                     )}
                 </div>
