@@ -6,4 +6,4 @@ import Cart from './Cart'
 import Login from './Login'
 import Signup from './Signup'
 
-export { Navigation, Home, Products, WishList, Cart, Login, Signup }
+export {Navigation,Home,Products,WishList,Cart,Login,Signup}

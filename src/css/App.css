@@ -15,3 +15,25 @@ header{
     top:0;
     z-index:9;
 }
+
+.profile-dropdown{
+    position: absolute;
+    background-color: cornsilk;
+    z-index: 9;
+    padding:0.5rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+}
+
+img:hover{
+    cursor:pointer
+}
+
+.sale-section img{
+    max-inline-size: 50%;
+}
+
+.action-buttons{
+    align-items:center
+}
