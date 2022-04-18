@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect,useReducer } from "react"
+import { createContext, useContext, useState, useEffect, useReducer } from "react"
 import axios from "axios"
 
 const ProductsContext = createContext()
@@ -17,8 +17,7 @@ const ProductsProvider = ({ children }) => {
     }, [allProducts])
 
 
-    const filterItems=(productsState,allProducts)=>{
-        console.log(productsState.filterPrice,'fromfilter')
+    const filterItems = (productsState, allProducts) => {
         var prodcts = allProducts.filter((prdct) => {
             for (let i in productsState.categoryFilter) {
                 if (prdct.categoryName === productsState.categoryFilter[i])
@@ -26,15 +25,14 @@ const ProductsProvider = ({ children }) => {
             }
             return false
         })
-    
-         let x=prodcts.filter((item)=>parseInt(item.rating)>=parseInt(productsState.filterRating))
-    
-         let y=[...x].filter((item)=>{
-             console.log(item,productsState.filterPrice,'ppp')
-            return parseInt(item.price)<=parseInt(productsState.filterPrice)
-            })
-    
-        return y
+
+        let productsBeforeFilter = prodcts.filter((item) => parseInt(item.rating) >= parseInt(productsState.filterRating))
+
+        let productsAfterFilter = [...productsBeforeFilter].filter((item) => {
+            return parseInt(item.price) <= parseInt(productsState.filterPrice)
+        })
+
+        return productsAfterFilter
     }
 
 
@@ -42,23 +40,22 @@ const ProductsProvider = ({ children }) => {
 
         switch (action.type) {
             case ('categoryFilter'): {
-                let x = state.categoryFilter
+                let categoryArray = state.categoryFilter
                 if (action.addorRemove === 'add')
-                    x.push(action.payload)
-                else x = x.filter((item) => {
-                    console.log(x, item, action.payload, 'lll')
+                    categoryArray.push(action.payload)
+                else categoryArray = categoryArray.filter((item) => {
                     return action.payload !== item
                 }
                 )
 
-                var prodcts = filterItems({ ...state, categoryFilter: x }, allProducts)
-                return { ...state, products: prodcts, categoryFilter: x }
+                var prodcts = filterItems({ ...state, categoryFilter: categoryArray }, allProducts)
+                return { ...state, products: prodcts, categoryFilter: categoryArray }
             }
 
             case ('categorySelect'): {
-                const x=[action.payload]
-                var prodcts = filterItems({ ...state, categoryFilter: x }, allProducts)
-                return { ...state, products: prodcts, categoryFilter: x }
+                const categoryArray = [action.payload]
+                var prodcts = filterItems({ ...state, categoryFilter: categoryArray }, allProducts)
+                return { ...state, products: prodcts, categoryFilter: categoryArray }
             }
 
             case ('filterRating'): {
@@ -68,7 +65,6 @@ const ProductsProvider = ({ children }) => {
             }
 
             case ('filterPrice'): {
-                console.log(action.payload, 'payload val')
                 var prdcts = filterItems({ ...state, filterPrice: action.payload }, allProducts)
 
                 return { ...state, filterPrice: action.payload, products: prdcts }
@@ -76,25 +72,21 @@ const ProductsProvider = ({ children }) => {
 
             case ('priceSortDrn'): {
                 let y = state.products
-                if (parseInt(action.payload) === 0) { console.log('yes'); y.sort((a, b) => parseInt(a.price) - parseInt(b.price)) }
+                if (parseInt(action.payload) === 0) { y.sort((a, b) => parseInt(a.price) - parseInt(b.price)) }
                 else if (action.payload === 1)
                     y.sort((a, b) => parseInt(b.price) - parseInt(a.price))
                 return { ...state, products: y, priceSortDrn: action.payload }
             }
 
-            case('clear'):{
-                return {...state,filterRating: 0, priceSortDrn: null,products:allProducts,categoryFilter:['wireless earphones', 'headphones', 'phone cases', 'speakers'],filterPrice: Number.MAX_SAFE_INTEGER,}
+            case ('clear'): {
+                return { ...state, filterRating: 0, priceSortDrn: null, products: allProducts, categoryFilter: ['wireless earphones', 'headphones', 'phone cases', 'speakers'], filterPrice: Number.MAX_SAFE_INTEGER, }
             }
         }
-
 
         return { ...state, products: allProducts }
     }
 
     const [state, dispatch] = useReducer(reducer, { filterRating: 0, priceSortDrn: null, products: allProducts, categoryFilter: ['wireless earphones', 'headphones', 'phone cases', 'speakers'], filterPrice: Number.MAX_SAFE_INTEGER })
-
-
-
     return <ProductsContext.Provider value={{ state, dispatch }}>{children}</ProductsContext.Provider>
 }
 

@@ -1,9 +1,8 @@
 import React from 'react'
 import '../css/WishList.css'
 import Card from './Card'
-import { useCart } from '../context/CartContext'
-import { useWishListContext } from '../context/WishListContext'
-
+import { useCart } from '../context/index'
+import { useWishListContext } from '../context/index'
 
 
 const WishList = () => {

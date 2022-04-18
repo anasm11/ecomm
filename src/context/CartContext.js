@@ -11,12 +11,10 @@ const CartProvider = ({ children }) => {
       url: '/api/user/cart',
       headers: { authorization: localStorage.getItem('token') }
     })
-    console.log(res, 'cartfrom cn')
     setCartItems(res.data.cart)
   }, [])
 
   const addToCart = async (product) => {
-    console.log(product._id);
     const res = await axios({
       method: "post",
       url: "/api/user/cart",
@@ -26,9 +24,7 @@ const CartProvider = ({ children }) => {
       },
     });
 
-    console.log(res.data.cart, 'added')
     setCartItems(res.data.cart)
-
   }
 
   const removeFromCart = async (product) => {
@@ -40,9 +36,7 @@ const CartProvider = ({ children }) => {
       }
 
     })
-    console.log(res.data)
     setCartItems(res.data.cart)
-
   }
 
 
@@ -62,7 +56,6 @@ const CartProvider = ({ children }) => {
 
     })
     setCartItems(res.data.cart)
-    console.log(res.data, 'p')
   }
 
 
@@ -82,8 +75,6 @@ const CartProvider = ({ children }) => {
 
     setCartItems(res.data.cart)
   }
-
-
 
   return (<CartContext.Provider value={{ cartItems, addToCart, removeFromCart, incrementCartItem, decrementCartItem }}>{children}</CartContext.Provider>
   )

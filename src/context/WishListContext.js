@@ -3,16 +3,8 @@ import { useContext, useState, createContext } from "react"
 
 const WishListContext = createContext()
 
-
-
-
 const WishListProvider = ({ children }) => {
-
-
-
-
     const [wishList, setWishList] = useState([])
-
 
     const addToWishList = async (product) => {
         const res = await axios({
